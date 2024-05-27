@@ -9,7 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,11 +26,11 @@ public class UserEntity {
     private String name;
 
     @NotBlank
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @Email
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Length(min = 5, max = 100)
@@ -43,17 +43,17 @@ public class UserEntity {
     @Column()
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false,columnDefinition = "boolean default true")
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean active;
 
     @Column()
     private String accessKey;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "user_roles",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "role_id") }
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    private Set<RoleEntity> roles;
+    private List<RoleEntity> roles;
 }

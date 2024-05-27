@@ -41,7 +41,7 @@ public class CreateUserUseCase {
         userToBeCreated.setActive(false);
 
         var createdUserId = this.userRepository.save(userToBeCreated).getId();
-        this.sendSimpleEmailUseCase.execute(createUserRequestDto.getEmail(), "Conta criada com sucesso, aguarde um gestor aprovar seu login!");
+//        this.sendSimpleEmailUseCase.execute(createUserRequestDto.getEmail(), "Conta criada com sucesso, aguarde um gestor aprovar seu login!");
 
         return createdUserId;
     }

@@ -6,6 +6,7 @@ import numerario.auth.api.auth.modules.user.UserEntity;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -21,5 +22,5 @@ public class RoleEntity {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    HashSet<UserEntity> users;
+    List<UserEntity> users;
 }

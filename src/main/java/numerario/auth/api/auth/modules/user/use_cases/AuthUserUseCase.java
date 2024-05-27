@@ -4,8 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import numerario.auth.api.auth.exceptions.AppAuthenticationException;
 import numerario.auth.api.auth.modules.role.RoleEntity;
-import numerario.auth.api.auth.modules.user.dto.AuthUserResponseDto;
 import numerario.auth.api.auth.modules.user.dto.AuthUserRequestDto;
+import numerario.auth.api.auth.modules.user.dto.AuthUserResponseDto;
 import numerario.auth.api.auth.modules.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,14 +13,13 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 
 @Service
 public class AuthUserUseCase {
 
     private final UserRepository userRepository;
 
-    private final PasswordEncoder  passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${security.auth.secret}")
     private String secret;
@@ -31,7 +30,7 @@ public class AuthUserUseCase {
     }
 
     public AuthUserResponseDto execute(AuthUserRequestDto authUserRequestDto) {
-        var user = this.userRepository.findByUsername(authUserRequestDto.getUsername()).orElseThrow(AppAuthenticationException::new);
+        var user = this.userRepository.findByEmailAndActive(authUserRequestDto.getEmail(), true).orElseThrow(AppAuthenticationException::new);
 
         if (!this.passwordEncoder.matches(authUserRequestDto.getPassword(), user.getPassword())) {
             throw new AppAuthenticationException();
@@ -51,5 +50,4 @@ public class AuthUserUseCase {
 
         return AuthUserResponseDto.builder().accessToken(token).accessTokenExpiresIn(expiresIn).build();
     }
-
 }

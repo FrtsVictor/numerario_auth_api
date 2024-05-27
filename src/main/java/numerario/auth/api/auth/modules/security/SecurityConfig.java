@@ -17,10 +17,11 @@ public class SecurityConfig {
 
     private final UserSecurityFilter securityUserFilter;
 
-    private static final String[] SWAGGER_PATHS = {
+    private static final String[] PERMIT_ALL_LIST = {
             "/swagger-ui/**",
             "/v3/api-docs/**",
-            "/swagger-resources"
+            "/swagger-resources",
+            "/actuator/**"
     };
 
     public SecurityConfig(UserSecurityFilter securityUserFilter) {
@@ -34,7 +35,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.POST,"/user").permitAll()
                             .requestMatchers("/test").permitAll()
                             .requestMatchers("/user/auth").permitAll()
-                            .requestMatchers(SWAGGER_PATHS).permitAll();
+                            .requestMatchers(PERMIT_ALL_LIST).permitAll();
 
                     auth.anyRequest().authenticated();
                 })
